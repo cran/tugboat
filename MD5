@@ -1,0 +1,15 @@
+5d7f1b43d72442ad14ac9946328f51d9 *DESCRIPTION
+5f33a66b4264d1cb4d530bac69f1a09b *NAMESPACE
+3bbc566f547e732648575da1a48a4085 *NEWS.md
+d70602520f4718a7e65744696e4f763b *R/build.R
+07b156c0c71d1592ff4226c408e01a23 *R/create.R
+76201f1ea1cbfea925864d34988b6a9e *README.md
+272c045185f61ad1c8eea33b47bd81a4 *man/build.Rd
+707a4b7a8fd34162a14cbea2f9d58652 *man/create.Rd
+fefe20065915393ee5b68b4a3652971c *man/figures/hex-sticker.R
+6545fb8374f4e93b702dd0635e4d7c0c *man/figures/logo-no-bg.png
+727d3c9ce77364352dde9a0922682fed *man/figures/logo.png
+e31be9c1e885a6915e80193bfe8f6b5b *man/figures/tugboat-logo.jpg
+c2e48ce5eca0d192280bb0175e800588 *tests/testthat.R
+336986f24b51ff16925f4f606351076e *tests/testthat/test-build.R
+a01d05fc2376e79ea6d26401ddfef275 *tests/testthat/test-create.R
