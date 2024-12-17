@@ -1,11 +1,16 @@
 test_that("Creating a Dockerfile works as expected", {
-  testthat::skip_on_ci()
   testthat::skip_on_cran()
   if (!interactive()) {
-    testthat::skip()
+    skip("Tests only run interactively")
   }
+
+  system("docker system prune -a --force")
+  
   if (file.exists(here::here("examples/simple/Dockerfile"))) {
     file.remove(here::here("examples/simple/Dockerfile"))
+  }
+  if (file.exists(here::here("examples/simple/renv.lock"))) {
+    file.remove(here::here("examples/simple/renv.lock"))
   }
   # Create the Dockerfile
   dock <- suppressWarnings({

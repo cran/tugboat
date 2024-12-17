@@ -10,7 +10,7 @@ build(
   tag = "latest",
   platforms = c("linux/amd64", "linux/arm64"),
   build_args = NULL,
-  build_context = dirname(dockerfile),
+  build_context = here::here(),
   push = FALSE,
   dh_username = NULL,
   dh_password = NULL
@@ -53,7 +53,7 @@ A simple utility to quickly build a Docker image from a Dockerfile.
 \dontrun{
 dock <- create(
   project = here::here(),
-  FROM = "rocker/rstudio",
+  FROM = "rstudio/r-base:devel-bookworm",
   exclude = c("/data", "/examples")
 )
 

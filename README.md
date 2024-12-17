@@ -12,11 +12,9 @@ detect all the packages necessary to replicate your analysis and will generate
 a Dockerfile that contains an exact copy of your entire directory with all
 the packages installed.
 
-tugboat builds directly on the [dockerfiler](https://github.com/ThinkR-open/dockerfiler/)
-package which generates Dockerfiles from DESCRIPTION files or from `renv.lock`
-files. tugboat adds the sugar of converting an unstructured analysis folder
-into the necessary `renv.lock` file and then relies on dockerfiler to do
-the rest.
+tugboat transforms an unstructured analysis folder into a renv.lock file
+and constructs a Docker image that includes all your essential R packages
+based on this lockfile.
 
 tugboat may be of use, for example, when preparing a replication package for
 research. With tugboat, you can take a directory on your local computer
@@ -25,7 +23,12 @@ code and the necessary software to reproduce your findings.
 
 ## Installation
 
-Install tugboat with
+Install tugboat from CRAN:
+```r
+install.packages("tugboat")
+```
+
+Or install the development version from GitHub:
 ```r
 # install.packages("pak")
 pak::pkg_install("dmolitor/tugboat")
@@ -38,31 +41,43 @@ analysis directory, and one to build the corresponding Docker image.
 
 ### Create the Dockerfile
 
-The primary function from tugboat is `create`. This function will turn your
-analysis directory into a Dockerfile that includes all your code and essential
-R packages. For the most common cases, there are a couple arguments in this
-function that are of particular importance:
+The primary function from tugboat is `create()`. This function converts 
+your analysis directory into a Dockerfile that includes all your code 
+and essential R packages.
+
+This function scans all files in the current analysis directory,
+attempts to detect all R packages, and installs these packages in
+the resulting Docker image. It also copies the entire contents of the
+analysis directory into the Docker image. For example, if
+your analysis directory is named `incredible_analysis`, the corresponding
+location of your code and data files in the generated Docker image will
+be `/incredible_analysis`.
+
+For the most common use-cases, there are a couple of arguments in this
+function that are particularly important:
 
 - `project`: This argument tells tugboat which directory is the one to generate
 the Dockerfile from. You can set this value yourself, or you can just use
 the default value. By default, tugboat uses the `here::here` function to
-determine what directory is the project directory. To get a detailed understanding
-of exactly how this works take a look at the [here package](https://github.com/r-lib/here/)
-but in general, this "just works"!
+determine what directory is the analysis directory. To get a detailed understanding
+of exactly how this works take a look at the [here package](https://github.com/r-lib/here/).
+In general, this "just works"!
 - `as`: This argument tells tugboat where to save the Dockerfile. In
 general you don't need to set this and tugboat will just save the
 Dockerfile in the `project` directory from above.
-- `exclude`: A vector of files or directories that should ***NOT***
-be included in the Docker image. This is particularly important when you have,
-for example, large data directories that you plan to mount to a container
-instead of including them in the Docker image.
+- `exclude`: A vector of files or sub-directories in your analysis directory
+that should ***NOT*** be included in the Docker image. This is particularly
+important when you have, for example, a sub-directory with large data files
+that would make the resulting Docker image extremely large if included. You
+can tell tugboat to exclude this sub-directory and then simply mount it to
+a Docker container as needed.
 
 Below I'll outline a couple examples.
 ```r
 library(tugboat)
 
 # The simplest scenario where your analysis directory is your current
-# active project, you are fine with the default base "rocker/r-base"
+# active project, you are fine with the default base "r-base:latest"
 # Docker image, and you want to include all files/directories:
 create()
 
@@ -78,15 +93,16 @@ create(FROM = "rocker/rstudio")
 
 # Finally, suppose that we want to include all files except a couple
 # particularly data-heavy sub-directories:
-create(exclue = c("data/big_directory_1", "data/big_directory_2"))
+create(exclude = c("data/big_directory_1", "data/big_directory_2"))
 ```
 
 ### Build the Docker image
 
-Once the Dockerfile has been created, we can build the Docker image.
-By default this will infer the Dockerfile directory using `here::here`.
-This function assumes a little knowledge about Docker; if you aren't sure
-where to start, [this is a great starting point](https://colinfay.me/docker-r-reproducibility/).
+Once the Dockerfile has been created, we can build the Docker image
+with the `build()` function. By default this will infer the Dockerfile
+directory using `here::here`. This function assumes a little knowledge
+about Docker; if you aren't sure where to start,
+[this is a great starting point](https://colinfay.me/docker-r-reproducibility/).
 
 The following example will do the simplest thing and will build the
 image locally.
@@ -122,7 +138,38 @@ username and password. Typically you don't want to pass these in
 directly and should instead use environment variables (or a similar
 method) instead.
 
-### Examples
+## Why tugboat? 🚢
+
+There are a few available packages with similar goals, so why tugboat?
+tugboat is minimal and builds directly on top of
+[`renv`](https://rstudio.github.io/renv/articles/renv.html) and
+[`pak`](https://pak.r-lib.org/).
+Each of these packages is actively maintained and provides specific
+utilities that the tugboat utilizes for maximum convenience.
+tugboat aims to leverage packages that are likely to remain actively
+maintained and handle dependency management as seamlessly as possible.
+
+- [containerit](https://o2r.info/containerit/) is a robust package that is
+directly comparable to tugboat. However, it implements its own method for
+discovering R package dependencies instead of using renv. It also relies on
+[sysreqsdb](https://github.com/r-hub/sysreqsdb) for system dependency
+discovery, which has been archived in favor of
+[r-system-requirements](https://github.com/rstudio/r-system-requirements),
+which pak is built on. It also isn't super actively maintained and isn't on
+CRAN.
+
+- [holepunch](https://github.com/karthik/holepunch) is related but focuses
+on making GitHub repositories Binder-compatible. It currently relies on MRAN,
+which is now obsolete, and does not use pak for system dependency management.
+It is also not actively maintained and is not on CRAN.
+
+- [automagic](https://github.com/cole-brokamp/automagic) focuses on
+automatically detecting and installing R package dependencies but uses its own
+method rather than relying on renv. automagic also has no utilities for
+creating/building Docker images.
+
+
+## Examples
 
 For some worked examples of how to use tugboat in practice, see the
 `examples/` directory.
