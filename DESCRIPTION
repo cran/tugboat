@@ -1,6 +1,6 @@
 Package: tugboat
 Title: Build a Docker Image from a Directory or Project
-Version: 0.1.1
+Version: 0.1.3
 Authors@R: 
     person(given = "Daniel",
            family = "Molitor",
@@ -13,14 +13,14 @@ Imports: here, renv (>= 1.0.0)
 Suggests: yaml, rmarkdown, testthat (>= 3.0.0)
 License: GPL (>= 3)
 Encoding: UTF-8
-RoxygenNote: 7.3.2
+RoxygenNote: 7.3.3
 URL: https://www.dmolitor.com/tugboat/
 Config/testthat/edition: 3
 Config/testthat/start-first: create
 Language: en-US
 NeedsCompilation: no
-Packaged: 2024-12-16 23:20:47 UTC; dmolitor
+Packaged: 2025-09-26 22:08:25 UTC; dmolitor
 Author: Daniel Molitor [aut, cph, cre]
 Maintainer: Daniel Molitor <molitdj97@gmail.com>
 Repository: CRAN
-Date/Publication: 2024-12-17 15:10:02 UTC
+Date/Publication: 2025-09-27 23:20:02 UTC
