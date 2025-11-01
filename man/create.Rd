@@ -10,7 +10,8 @@ create(
   FROM = NULL,
   ...,
   exclude = NULL,
-  verbose = FALSE
+  verbose = FALSE,
+  optimize_pak = TRUE
 )
 }
 \arguments{
@@ -36,6 +37,12 @@ be absolute paths.}
 
 \item{verbose}{A boolean indicating whether or not to print the resulting
 Dockerfile to the console. Default value is \code{FALSE}.}
+
+\item{optimize_pak}{A boolean indicating whether or not to try to optimize
+package installations with pak. Defaults to \code{TRUE}. This should rarely be
+changed from its default value. However, sometimes this optimization may
+cause build failures. When encountering a build error, a good first step
+can be to set \code{optimize_pak = FALSE} and see if the error persists.}
 }
 \value{
 The Dockerfile contained as a string vector. Each vector element

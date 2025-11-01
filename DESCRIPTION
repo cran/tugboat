@@ -1,16 +1,16 @@
 Package: tugboat
 Title: Build a Docker Image from a Directory or Project
-Version: 0.1.3
+Version: 0.1.4
 Authors@R: 
     person(given = "Daniel",
            family = "Molitor",
            role = c("aut", "cph", "cre"),
            email = "molitdj97@gmail.com")
 Description: Simple utilities to generate a Dockerfile from a directory or
-    project, build the corresponding Docker image, and push the image to
-    DockerHub.
+    project, build the corresponding Docker image, push the image to
+    DockerHub, and publicly share the project via Binder.
 Imports: here, renv (>= 1.0.0)
-Suggests: yaml, rmarkdown, testthat (>= 3.0.0)
+Suggests: gert, usethis, yaml, rmarkdown, testthat (>= 3.0.0)
 License: GPL (>= 3)
 Encoding: UTF-8
 RoxygenNote: 7.3.3
@@ -19,8 +19,8 @@ Config/testthat/edition: 3
 Config/testthat/start-first: create
 Language: en-US
 NeedsCompilation: no
-Packaged: 2025-09-26 22:08:25 UTC; dmolitor
+Packaged: 2025-10-31 19:35:30 UTC; dmolitor
 Author: Daniel Molitor [aut, cph, cre]
 Maintainer: Daniel Molitor <molitdj97@gmail.com>
 Repository: CRAN
-Date/Publication: 2025-09-27 23:20:02 UTC
+Date/Publication: 2025-11-01 00:30:02 UTC

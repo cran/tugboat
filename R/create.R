@@ -26,6 +26,11 @@
 #'   be absolute paths.
 #' @param verbose A boolean indicating whether or not to print the resulting
 #'   Dockerfile to the console. Default value is `FALSE`.
+#' @param optimize_pak A boolean indicating whether or not to try to optimize
+#'   package installations with pak. Defaults to `TRUE`. This should rarely be
+#'   changed from its default value. However, sometimes this optimization may
+#'   cause build failures. When encountering a build error, a good first step
+#'   can be to set `optimize_pak = FALSE` and see if the error persists.
 #' 
 #' @seealso [here::here]; this will be used by default to determine the current
 #'   project directory.
@@ -52,10 +57,11 @@ create <- function(
   FROM = NULL,
   ...,
   exclude = NULL,
-  verbose = FALSE
+  verbose = FALSE,
+  optimize_pak = TRUE
 ) {
   lockfile <- init_renv(project = project, ...)
-  dock <- dockerfile(lockfile, FROM = FROM)
+  dock <- dockerfile(lockfile, FROM = FROM, optimize_pak = optimize_pak)
   dock <- c(dock, paste("COPY .", paste0("/", basename(project))), "")
   write_dockerignore(
     c(exclude, c("Dockerfile", ".dockerignore", "**/.DS_Store")),
