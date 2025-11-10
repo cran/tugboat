@@ -1,6 +1,6 @@
 Package: tugboat
 Title: Build a Docker Image from a Directory or Project
-Version: 0.1.4
+Version: 0.1.5
 Authors@R: 
     person(given = "Daniel",
            family = "Molitor",
@@ -19,8 +19,8 @@ Config/testthat/edition: 3
 Config/testthat/start-first: create
 Language: en-US
 NeedsCompilation: no
-Packaged: 2025-10-31 19:35:30 UTC; dmolitor
+Packaged: 2025-11-05 22:43:27 UTC; dmolitor
 Author: Daniel Molitor [aut, cph, cre]
 Maintainer: Daniel Molitor <molitdj97@gmail.com>
 Repository: CRAN
-Date/Publication: 2025-11-01 00:30:02 UTC
+Date/Publication: 2025-11-10 17:00:02 UTC
